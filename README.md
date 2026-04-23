@@ -34,7 +34,9 @@ cd mlb-season-comparator
 
 ### 2. Create virtual environment
 python -m venv venv
+
 source venv/bin/activate        # macOS/Linux
+
 venv\Scripts\activate           # Windows
 
 ### 3. Install Dependencies
@@ -45,24 +47,26 @@ streamlit run app.py
 
 ### How it works
 app.py          — Streamlit UI, all rendering and session state
+
 analysis.py     — stat aggregation and season comparison logic
+
 store.py        — MLB Stats API fetching and SQLite caching
+
 glossary.py     — hover tooltip definitions for every stat
 
-Known Limitations
-Roster role detection (starter vs bullpen) is based on game-by-game appearance data, not official roster designations
-Players who switched roles mid-season may appear as both starter and bullpen
-Current season data updates once per 24 hours due to cache TTL
+### Known Limitations
+1. Roster role detection (starter vs bullpen) is based on game-by-game appearance data, not official roster designations
+2. Players who switched roles mid-season may appear as both starter and bullpen
+3. Current season data updates once per 24 hours due to cache TTL
 
-Changelog
+### Changelog
 v1.0.0 — April 2026
-Initial release
-Team comparison across up to 5 seasons
-Pitching, batting, roster change tabs
-Player Quick Compare with delta tracking
-Glossary tooltips on all stat columns
-Role badges on roster changes
-
+1. Initial release
+2. Team comparison across up to 5 seasons
+3. Pitching, batting, roster change tabs
+4. Player Quick Compare with delta tracking
+5. Glossary tooltips on all stat columns
+6. Role badges on roster changes
 
 License
 MIT — free to use, modify, and distribute.
