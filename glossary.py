@@ -1,0 +1,18 @@
+GLOSSARY = {
+    "ERA": "Earned Run Average. Average earned runs a pitcher allows per 9 innings. Lower is better. Under 3.00 is excellent, under 4.00 is solid, above 5.00 is poor.",
+    "WHIP": "Walks + Hits per Inning Pitched. How many baserunners a pitcher allows per inning. Lower is better. Under 1.10 is great, 1.30 is average, above 1.50 is poor.",
+    "K9": "Strikeouts per 9 innings. Measures a pitcher's ability to miss bats. Higher is better. Above 10 is elite, 7-8 is average.",
+    "BB9": "Walks per 9 innings. Measures a pitcher's control. Lower is better. Above 4.00 is a concern.",
+    "FIP": "Fielding Independent Pitching. Like ERA but only counts strikeouts, walks, and home runs — strips out defense. Better measure of a pitcher's true ability.",
+    "QS_PCT": "Quality Start Percentage. Share of starts where the pitcher went 6+ innings and allowed 3 or fewer earned runs. Measures starter reliability.",
+    "AVG": "Batting Average. Hits divided by at-bats. Familiar but limited — does not account for walks or power.",
+    "OBP": "On-Base Percentage. How often a batter reaches base by any means — hit, walk, or hit by pitch. Better measure of offensive value than AVG.",
+    "SLG": "Slugging Percentage. Measures power. Weights hits by bases produced — a home run counts 4x more than a single.",
+    "OPS": "On-Base Plus Slugging. OBP + SLG combined. Quick single-number offensive summary. Above .900 is excellent, above .800 is good, below .700 is below average.",
+    "wRC_plus": "Weighted Runs Created Plus. Most complete offensive stat. 100 is league average. 120 means 20% better than average. 80 means 20% worse. Adjusts for ballpark.",
+    "BABIP": "Batting Average on Balls in Play. How often balls in play become hits. League average is ~.300. Very high may mean luck. Very low may mean bad contact or bad luck.",
+    "RUN_DIFF": "Run Differential. Runs scored minus runs allowed. Better predictor of team quality than win/loss record because it is harder to fake over a sample.",
+    "WIN_PCT": "Win Percentage. Wins divided by games played in your selected window.",
+    "BULLPEN_ERA": "Bullpen ERA. ERA of all relief pitchers combined, separate from starters. Isolates whether the bullpen specifically is helping or hurting.",
+    "LOB_PCT": "Left on Base Percentage. How often runners are stranded. Extreme values in small samples can indicate luck affecting win/loss record.",
+}
