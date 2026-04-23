@@ -60,6 +60,10 @@ glossary.py     — hover tooltip definitions for every stat
 3. Current season data updates once per 24 hours due to cache TTL
 
 ### Changelog
+v1.1.0 - April 2026
+1. Add glossary tooltips for all stat columns, role badges on roster changes. 
+2. Starter/bullpen definitions in sidebar
+
 v1.0.0 — April 2026
 1. Initial release
 2. Team comparison across up to 5 seasons
