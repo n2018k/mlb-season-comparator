@@ -1,18 +1,97 @@
 GLOSSARY = {
-    "ERA": "Earned Run Average. Average earned runs a pitcher allows per 9 innings. Lower is better. Under 3.00 is excellent, under 4.00 is solid, above 5.00 is poor.",
-    "WHIP": "Walks + Hits per Inning Pitched. How many baserunners a pitcher allows per inning. Lower is better. Under 1.10 is great, 1.30 is average, above 1.50 is poor.",
-    "K9": "Strikeouts per 9 innings. Measures a pitcher's ability to miss bats. Higher is better. Above 10 is elite, 7-8 is average.",
-    "BB9": "Walks per 9 innings. Measures a pitcher's control. Lower is better. Above 4.00 is a concern.",
-    "FIP": "Fielding Independent Pitching. Like ERA but only counts strikeouts, walks, and home runs — strips out defense. Better measure of a pitcher's true ability.",
-    "QS_PCT": "Quality Start Percentage. Share of starts where the pitcher went 6+ innings and allowed 3 or fewer earned runs. Measures starter reliability.",
-    "AVG": "Batting Average. Hits divided by at-bats. Familiar but limited — does not account for walks or power.",
-    "OBP": "On-Base Percentage. How often a batter reaches base by any means — hit, walk, or hit by pitch. Better measure of offensive value than AVG.",
-    "SLG": "Slugging Percentage. Measures power. Weights hits by bases produced — a home run counts 4x more than a single.",
-    "OPS": "On-Base Plus Slugging. OBP + SLG combined. Quick single-number offensive summary. Above .900 is excellent, above .800 is good, below .700 is below average.",
-    "wRC_plus": "Weighted Runs Created Plus. Most complete offensive stat. 100 is league average. 120 means 20% better than average. 80 means 20% worse. Adjusts for ballpark.",
-    "BABIP": "Batting Average on Balls in Play. How often balls in play become hits. League average is ~.300. Very high may mean luck. Very low may mean bad contact or bad luck.",
-    "RUN_DIFF": "Run Differential. Runs scored minus runs allowed. Better predictor of team quality than win/loss record because it is harder to fake over a sample.",
-    "WIN_PCT": "Win Percentage. Wins divided by games played in your selected window.",
-    "BULLPEN_ERA": "Bullpen ERA. ERA of all relief pitchers combined, separate from starters. Isolates whether the bullpen specifically is helping or hurting.",
-    "LOB_PCT": "Left on Base Percentage. How often runners are stranded. Extreme values in small samples can indicate luck affecting win/loss record.",
+    # Pitching
+    "ERA": (
+        "Earned Run Average — the average number of earned runs a pitcher allows per 9 innings. "
+        "Lower is better. Under 3.00 is excellent; above 5.00 is poor."
+    ),
+    "WHIP": (
+        "Walks + Hits per Inning Pitched — measures how many baserunners a pitcher allows per inning. "
+        "Lower is better. Under 1.10 is excellent; above 1.40 is poor."
+    ),
+    "K9": (
+        "Strikeouts per 9 innings — how many batters a pitcher strikes out per 9 innings pitched. "
+        "Higher is better. Above 9.0 is elite."
+    ),
+    "BB9": (
+        "Walks per 9 innings — how many batters a pitcher walks per 9 innings pitched. "
+        "Lower is better. Under 2.5 is good control."
+    ),
+    "IP": (
+        "Innings Pitched — total innings a pitcher has thrown. Recorded in thirds: "
+        "20.1 means 20 innings and 1 out, 20.2 means 20 innings and 2 outs."
+    ),
+    "QS": (
+        "Quality Start — a start in which the pitcher goes at least 6 innings "
+        "and allows 3 or fewer earned runs."
+    ),
+    "QS_PCT": (
+        "Quality Start Percentage — share of starts that were Quality Starts. "
+        "Higher is better. 0.600 or above is considered strong."
+    ),
+    "STARTER": (
+        "Starting Pitcher — takes the mound at the beginning of the game. "
+        "Typically pitches 5–7 innings and is responsible for setting the tone of the game. "
+        "Tracked separately from relievers because their workload and role differ significantly."
+    ),
+    "BULLPEN": (
+        "Bullpen / Relief Pitcher — enters the game after the starter exits. "
+        "Usually pitches 1–3 innings per appearance. Includes middle relievers, setup men, and closers. "
+        "Bullpen ERA and WHIP are tracked separately from starters."
+    ),
+    "BULLPEN_ERA": (
+        "Bullpen ERA — Earned Run Average for relief pitchers only, excluding the starting pitcher. "
+        "Reflects how well the team's relievers have performed."
+    ),
+
+    # Batting
+    "AB": (
+        "At-Bats — the number of times a batter officially faced the pitcher, "
+        "excluding walks, hit-by-pitches, sacrifices, and catcher's interference."
+    ),
+    "H": (
+        "Hits — times the batter reached base safely via a single, double, triple, or home run."
+    ),
+    "HR": (
+        "Home Runs — times the batter hit the ball out of the park for an automatic score. "
+        "One of the most valuable offensive events in baseball."
+    ),
+    "RBI": (
+        "Runs Batted In — number of runners (including the batter on a home run) "
+        "who scored as a direct result of the batter's plate appearance."
+    ),
+    "BB": (
+        "Walks (Base on Balls) — times the pitcher threw 4 balls before the batter swung, "
+        "allowing the batter to reach first base automatically."
+    ),
+    "K": (
+        "Strikeouts — times the batter was retired by accumulating 3 strikes. "
+        "High K totals can indicate a batter who makes less contact."
+    ),
+    "AVG": (
+        "Batting Average — hits divided by at-bats. The most traditional measure of hitting. "
+        "Above .300 is excellent; below .220 is poor."
+    ),
+    "OBP": (
+        "On-Base Percentage — how often a batter reaches base by any means "
+        "(hits, walks, or hit-by-pitch) divided by plate appearances. "
+        "Considered more complete than AVG. Above .350 is very good."
+    ),
+    "OPS": (
+        "On-Base Plus Slugging — OBP added to Slugging Percentage. "
+        "A quick all-in-one offensive measure. Above .800 is good; above .900 is excellent."
+    ),
+
+    # Team
+    "WIN_PCT": (
+        "Win Percentage — share of games won. Calculated as wins divided by games played."
+    ),
+    "RUN_DIFF": (
+        "Run Differential — total runs scored minus total runs allowed. "
+        "A positive number means the team is outscoring opponents. "
+        "A strong predictor of true team quality beyond win-loss record."
+    ),
 }
+
+
+def glossary_label(key: str) -> str:
+    return GLOSSARY.get(key, "")

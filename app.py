@@ -121,7 +121,10 @@ st.sidebar.markdown("**What the colors mean**")
 st.sidebar.markdown("🟢 Improvement from baseline")
 st.sidebar.markdown("🔴 Decline from baseline")
 st.sidebar.markdown("Baseline = earliest selected season")
-
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Pitcher roles**")
+st.sidebar.markdown("🟡 **Starter** — opens the game, typically 5–7 innings")
+st.sidebar.markdown("🔵 **Bullpen** — relieves the starter, typically 1–3 innings")
 
 # -------------------------------------------------------------------
 # PLAYER INDEX BUILDER
@@ -353,6 +356,7 @@ if selected_pid is not None:
             st.dataframe(
                 df_p, width="stretch", hide_index=True,
                 column_config={
+                    "IP":   st.column_config.NumberColumn("IP",   format="%.1f", help=glossary_label("IP")),
                     "ERA":  st.column_config.NumberColumn("ERA",  format="%.2f", help=glossary_label("ERA")),
                     "WHIP": st.column_config.NumberColumn("WHIP", format="%.3f", help=glossary_label("WHIP")),
                     "K/9":  st.column_config.NumberColumn("K/9",  format="%.2f", help=glossary_label("K9")),
@@ -476,6 +480,7 @@ with tab2:
                 })
                 st.dataframe(df_s, width="stretch", hide_index=True,
                     column_config={
+                        "IP":   st.column_config.NumberColumn("IP",   format="%.1f", help=glossary_label("IP")),
                         "ERA":  st.column_config.NumberColumn("ERA",  format="%.2f", help=glossary_label("ERA")),
                         "WHIP": st.column_config.NumberColumn("WHIP", format="%.3f", help=glossary_label("WHIP")),
                         "K/9":  st.column_config.NumberColumn("K/9",  format="%.2f", help=glossary_label("K9")),
@@ -497,10 +502,12 @@ with tab2:
                 })
                 st.dataframe(df_b, width="stretch", hide_index=True,
                     column_config={
+                        "IP":   st.column_config.NumberColumn("IP",   format="%.1f", help=glossary_label("IP")),
                         "ERA":  st.column_config.NumberColumn("ERA",  format="%.2f", help=glossary_label("ERA")),
                         "WHIP": st.column_config.NumberColumn("WHIP", format="%.3f", help=glossary_label("WHIP")),
                         "K/9":  st.column_config.NumberColumn("K/9",  format="%.2f", help=glossary_label("K9")),
                         "BB/9": st.column_config.NumberColumn("BB/9", format="%.2f", help=glossary_label("BB9")),
+                        "QS%":  st.column_config.NumberColumn("QS%",  format="%.3f", help=glossary_label("QS_PCT")),
                     })
             else:
                 st.write("No bullpen data available.")
@@ -525,26 +532,63 @@ with tab3:
                 })
                 st.dataframe(df_bat, width="stretch", hide_index=True,
                     column_config={
+                        "AB":  st.column_config.NumberColumn("AB",  help=glossary_label("AB")),
+                        "H":   st.column_config.NumberColumn("H",   help=glossary_label("H")),
+                        "HR":  st.column_config.NumberColumn("HR",  help=glossary_label("HR")),
+                        "RBI": st.column_config.NumberColumn("RBI", help=glossary_label("RBI")),
+                        "BB":  st.column_config.NumberColumn("BB",  help=glossary_label("BB")),
+                        "K":   st.column_config.NumberColumn("K",   help=glossary_label("K")),
                         "AVG": st.column_config.NumberColumn("AVG", format="%.3f", help=glossary_label("AVG")),
                         "OBP": st.column_config.NumberColumn("OBP", format="%.3f", help=glossary_label("OBP")),
                     })
             else:
                 st.write("No batting data available.")
 
-
 # ===================================================================
 # TAB 4 — ROSTER CHANGES
 # ===================================================================
 with tab4:
     st.subheader("Roster Changes")
-    diff = result["roster_diff"]
+    diff         = result["roster_diff"]
+    p_index      = st.session_state.player_index  # has role info
+
+    def role_badge(player_name: str) -> str:
+        """Look up role for a player by name. Returns a short label."""
+        for pid, pdata in p_index.items():
+            if pdata["name"] == player_name:
+                role = pdata["role"]
+                if role == "pitcher":
+                    # Determine starter vs bullpen from seasons data
+                    types = set()
+                    for s in pdata["seasons"].values():
+                        types.add(s.get("type", ""))
+                    if "starter" in types and "bullpen" in types:
+                        return "starter/bullpen"
+                    elif "starter" in types:
+                        return "starter"
+                    else:
+                        return "bullpen"
+                return role  # "batter", "both"
+        return ""
+
+    def format_player_with_role(player_name: str) -> str:
+        role = role_badge(player_name)
+        role_display = {
+            "starter":         "🟡 SP",
+            "bullpen":         "🔵 RP",
+            "starter/bullpen": "🟡🔵 SP/RP",
+            "batter":          "⚪ BAT",
+            "both":            "🟠 2-way",
+        }
+        badge = role_display.get(role, "")
+        return f"{player_name}  {badge}" if badge else player_name
 
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown(f"### 🟢 New in {', '.join(later_seasons)}")
         st.caption(f"Not on {baseline} roster")
         for p in diff["new_players"]:
-            st.write(f"+ {p['name']}")
+            st.write(format_player_with_role(p["name"]))
         if not diff["new_players"]:
             st.write("None")
 
@@ -552,7 +596,7 @@ with tab4:
         st.markdown(f"### 🔴 Departed after {baseline}")
         st.caption(f"On {baseline}, not in later seasons")
         for p in diff["departed"]:
-            st.write(f"- {p['name']}")
+            st.write(format_player_with_role(p["name"]))
         if not diff["departed"]:
             st.write("None")
 
@@ -560,9 +604,19 @@ with tab4:
         st.markdown(f"### ⚪ Returning")
         st.caption("Present in all selected seasons")
         for p in diff["returning"]:
-            st.write(f"  {p['name']}")
+            st.write(format_player_with_role(p["name"]))
         if not diff["returning"]:
             st.write("None")
+
+    st.markdown("---")
+
+    # Legend
+    st.caption(
+        "🟡 SP = Starting Pitcher &nbsp;|&nbsp; "
+        "🔵 RP = Relief/Bullpen Pitcher &nbsp;|&nbsp; "
+        "🟠 2-way = Pitcher who also bats &nbsp;|&nbsp; "
+        "⚪ BAT = Batter"
+    )
 
     st.markdown("---")
     st.subheader("Full Roster Grid")
